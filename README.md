@@ -34,7 +34,7 @@
 - **Viết report**: `dùng LaTeX`
   - Template: https://www.overleaf.com/project/679f3b5ac4e6d540df06881b
 - **Làm slide**: `LaTeX Beamer`
-  - Template (có rồi):
+  - Template: https://www.overleaf.com/project/67a4260a8d8a437eccba9c26
 
 => Dùng overleaf
 
