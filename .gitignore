@@ -1,2 +1,4 @@
 # Exclude all files in the Development directory
 Development/*
+# Exclude all files in the Report directory
+Report/*

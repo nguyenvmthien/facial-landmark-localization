@@ -1,5 +1,20 @@
 # facial-landmark-localization
 
+- Lịch họp định kỳ: 15h T7 hàng tuần
+- Lịch họp đột xuất (nếu có): 15h T4
+
+# TODO: 15h T7, 15/02
+
+- Đọc 3 survey paper 1,4,5 để chuẩn bị làm chương 2
+- Note:
+
+```
+- Trang đầu report không có mã số sinh viên thì có ổn không?
+- Danh sách giảng viên hướng dẫn có bổ sung họ tên của trợ giảng hay không?
+- Tất cả hình ảnh đưa vào report phải đảm bảo "sự rõ nét", không nên dùng các hình bị mờ.
+- Nếu thanh logs báo lỗi thì thành viên chủ động sửa lỗi.
+```
+
 # TODO: 15h T6, 07/02
 
 - Làm slide và viết report bằng tiếng Việt
@@ -16,9 +31,19 @@
 
 1.2. Ý nghĩa về ứng dụng (thực tiễn) của chủ đề. => Đóng góp vào đời sống thường ngày
 
+- Animation
+- Face editing
+- Thực tế tăng cường (AR)
+- Human-Machine Interaction
+
 ## 22127401 - Nguyễn Quang Thông
 
 1.1. Ý nghĩa về khoa học của chủ đề. => Đóng góp vào khoa học, nghiên cứu,
+
+- Face recognition
+- Facical expression and emotion analysis
+- Eye tracking
+- Attributes classification
 
 ## 22127398 - Nguyễn Văn Minh Thiện
 
@@ -34,7 +59,7 @@
 - **Viết report**: `dùng LaTeX`
   - Template: https://www.overleaf.com/project/679f3b5ac4e6d540df06881b
 - **Làm slide**: `LaTeX Beamer`
-  - Template: https://www.overleaf.com/project/67a4260a8d8a437eccba9c26
+  - Template (có rồi): https://www.overleaf.com/project/67a4260a8d8a437eccba9c26
 
 => Dùng overleaf
 
