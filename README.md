@@ -3,6 +3,11 @@
 - Lịch họp định kỳ: 15h T7 hàng tuần
 - Lịch họp đột xuất (nếu có): 15h T4
 
+# TODO: 15h T7, 22/02
+
+- Viết phần nhỏ trước 1.1, giới thiệu chung về chủ đề
+- Các thành viên viết thêm về một công trình vào related work
+
 # TODO: 15h T7, 15/02
 
 - Đọc 3 survey paper 1,4,5 để chuẩn bị làm chương 2
@@ -75,6 +80,7 @@
 
 ```
 Chương 1. Giới thiệu
+    1.0. Giới thiệu về chủ đề
     1.1. Ý nghĩa về khoa học của chủ đề.
     1.2. Ý nghĩa về ứng dụng của chủ đề.
     1.3. Phát biểu bài toán
