@@ -3,6 +3,10 @@
 - Lịch họp định kỳ: 15h T7 hàng tuần
 - Lịch họp đột xuất (nếu có): 15h T4
 
+# TODO: 15h T7, 01/03
+
+- Tiếp tục hoàn thành phần "Related works"
+
 # TODO: 15h T7, 22/02
 
 - Viết phần nhỏ trước 1.1, giới thiệu chung về chủ đề

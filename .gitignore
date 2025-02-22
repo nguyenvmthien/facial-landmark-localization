@@ -2,3 +2,5 @@
 Development/*
 # Exclude all files in the Report directory
 Report/*
+# Exclude all image files in the Images directory
+Images/*
