@@ -3,6 +3,20 @@
 - Lịch họp định kỳ: 15h T7 hàng tuần
 - Lịch họp đột xuất (nếu có): 15h T4
 
+# TODO: 15h T7, 22/03
+
+- Tìm hiểu về paper được chọn (main method): https://docs.google.com/spreadsheets/d/1sRzfZNLsH_zDZupy-x-obUzrgvaA6J3C5kZf52neDnw/edit?gid=1260700319#gid=1260700319
+- Viết thêm related works:
+  - ERT (DLib)
+  - Adaptive Wing
+  - SPIGA
+  - FaceXFormer
+- Thử benchmark trên bộ dữ liệu 300W (chỉ test trên link Drive - https://drive.google.com/file/d/1VGT24gi5nd2TnGRLbHRtJkAGQbclkcJi/view):
+  - ERT (DLib): Thiện
+  - Adaptive Wing: Tín
+  - SPIGA: Phát
+  - FaceXFormer: Thông
+
 # TODO: 15h T7, 01/03
 
 - Tiếp tục hoàn thành phần "Related works"
