@@ -5,17 +5,14 @@
 
 # TODO: 15h T7, 22/03
 
-- Tìm hiểu về paper được chọn (main method): https://docs.google.com/spreadsheets/d/1sRzfZNLsH_zDZupy-x-obUzrgvaA6J3C5kZf52neDnw/edit?gid=1260700319#gid=1260700319
-- Viết thêm related works:
-  - ERT (DLib)
-  - Adaptive Wing
-  - SPIGA
-  - FaceXFormer
-- Thử benchmark trên bộ dữ liệu 300W (chỉ test trên link Drive - https://drive.google.com/file/d/1VGT24gi5nd2TnGRLbHRtJkAGQbclkcJi/view):
+- Mỗi người đọc 2 bài báo về `SPIGA` và `XFormer`
+- Thử benchmark trên bộ dữ liệu 300W (Link Kaggle: https://www.kaggle.com/datasets/fcbf18ebbaa22b293898032c9190efeb737a2204b226031a905f91769f2b19cc):
   - ERT (DLib): Thiện
   - Adaptive Wing: Tín
   - SPIGA: Phát
   - FaceXFormer: Thông
+- Sau khi chạy xong sẽ điền kết quả vào sheet Evaluation
+- Viết thêm related works
 
 # TODO: 15h T7, 01/03
 
