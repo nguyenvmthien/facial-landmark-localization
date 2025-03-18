@@ -6,7 +6,7 @@
 # TODO: 15h T7, 22/03
 
 - Mỗi người đọc 2 bài báo về `SPIGA` và `XFormer`
-- Thử benchmark trên bộ dữ liệu 300W (Link Kaggle: https://www.kaggle.com/datasets/fcbf18ebbaa22b293898032c9190efeb737a2204b226031a905f91769f2b19cc):
+- Thử benchmark trên bộ dữ liệu `300W private` (Link Kaggle: https://www.kaggle.com/datasets/fcbf18ebbaa22b293898032c9190efeb737a2204b226031a905f91769f2b19cc):
   - ERT (DLib): Thiện
   - Adaptive Wing: Tín
   - SPIGA: Phát
