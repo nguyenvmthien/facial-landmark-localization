@@ -4,3 +4,5 @@ Development/*
 Report/*
 # Exclude all image files in the Images directory
 Images/*
+# Exclude all models in the Models directory
+Models/*
