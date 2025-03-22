@@ -3,6 +3,26 @@
 - Lịch họp định kỳ: 15h T7 hàng tuần
 - Lịch họp đột xuất (nếu có): 15h T4
 
+# TODO: 15h T7, 29/03
+
+- Tập trung vào `FaceXFormer` làm method chính
+- Lấy phần tổng quan của `SPIGA`
+  - Phần 2: Vẫn dựa chủ yếu vào sách + mở rộng thêm một số nội dung từ bài báo về công trình đó
+    - Thêm phương pháp attention
+- (Phát) Chương 2: Related works (tiến trình phát triển)
+  - Bắt đầu từ phương pháp trong sách
+  - Rồi mở rộng thêm từ các bài báo khác
+  - 4 hướng chính: Thống kê + Coordinate regression + Heatmap regression + Transformer
+- (Tín) Chương 3: Method trong sách (2E)
+- (4 người đọc) Chương 4: SOTA method FaceXFormer
+- (Thiện) Chương 5: Giới thiệu về tập dữ liệu, metric đánh giá, kết quả thực nghiệm
+- (Thiện) Chương 6: Kết luận + Hướng phát triển trong tương lai (+ Hạn chế nếu có)
+- (Thông) Chương 7: Demo ứng dụng (ảnh + video + camera (live))
+- Note:
+  - Từ chương 4 trở đi chỉ làm trên SOTA
+- Output:
+  - Viết báo cáo hoặc xây demo
+
 # TODO: 15h T7, 22/03
 
 - Mỗi người đọc 2 bài báo về `SPIGA` và `XFormer`
