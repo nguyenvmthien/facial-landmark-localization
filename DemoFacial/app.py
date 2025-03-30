@@ -8,39 +8,43 @@ from fastrtc import WebRTC
 from fastrtc import VideoStreamHandler
 import av
 from PIL import Image, ImageDraw
-import ai
+import landmark_detection
 import numpy as np
 from time import time
+import cv2
+from mtcnn_facedetection import detect_faces
 
 
 radius = 2
 
 
-def do_facial_landmark_recognition(image: Image):
-    faces = ai.get_faces(image)
-    landmarks_batch = ai.get_landmarks(faces)
-    drawer = ImageDraw.Draw(image)
-    drawer.text((0, 0), "This worked", fill="red")
+def do_facial_landmark_recognition(
+    image: np.ndarray, face_boxes: list[landmark_detection.BoundingBox]
+):
+    faces = landmark_detection.get_faces(image, face_boxes)
+    landmarks_batch = landmark_detection.get_landmarks(faces)
 
     for i, landmarks in enumerate(landmarks_batch):
         for landmark in landmarks:
-            drawer.circle(landmark, radius, fill="red")
+            image = cv2.circle(image, landmark, radius, (255, 0, 0), -1)
 
     return image
 
+def do_facial_landmark_recognition_with_mtcnn(image: np.ndarray):
+    face_boxes = detect_faces(image)
+    return do_facial_landmark_recognition(image, face_boxes)
 
 def video_frame_callback_gradio(frame: np.array):
-    img = Image.fromarray(frame)
-    flipped = img.transpose(Image.Transpose.FLIP_LEFT_RIGHT)
+    flipped = cv2.flip(frame, 1)
 
-    flipped = do_facial_landmark_recognition(flipped)
+    flipped = do_facial_landmark_recognition_with_mtcnn(flipped)
 
-    return np.array(flipped)
+    return flipped
 
 
 def video_frame_callback_streamlit(frame: av.VideoFrame):
-    img = frame.to_image()
-    flipped = img.transpose(Image.Transpose.FLIP_LEFT_RIGHT)
+    img = frame.to_ndarray()
+    flipped = cv2.flip(img, 1)
 
     flipped = do_facial_landmark_recognition(flipped)
 
@@ -68,7 +72,7 @@ with gr.Blocks(css=css) as demo:
             image = WebRTC(label="Stream", rtc_configuration=None)
         image.stream(
             fn=VideoStreamHandler(
-                video_frame_callback_gradio, fps=10, skip_frames=True
+                video_frame_callback_gradio, fps=12, skip_frames=True
             ),
             inputs=[image],
             outputs=[image],
@@ -102,8 +106,9 @@ def test(times=10):
 
 
 import sys
+
 if __name__ == "__main__":
-    if '--test' in sys.argv:
+    if "--test" in sys.argv:
         test()
     else:
         demo.launch()
