@@ -3,6 +3,31 @@
 - Lịch họp định kỳ: 15h T7 hàng tuần
 - Lịch họp đột xuất (nếu có): 15h T4
 
+# TODO: Trưa và chiều T4, 09/04
+
+- Sáng thứ T4 (ngày 09/04), rảnh lúc 11h30 (I81)
+  - Bắt đầu họp vào 12h30 + meeting offline ở thư viện
+- Viết các phần trong report cho báo cáo cuối kỳ
+- Soạn câu hỏi cho giảng viên về yêu cầu của report giữa kỳ:
+  - **Câu 1:** Số trang kỳ vọng trong báo cáo đồ án giữa kỳ: từ `x` => `y` trang
+  - **Câu 2:** Nội dung sẽ bao gồm những phần gì?
+    - Dùng cấu trúc report hiện tại của nhóm để hỏi xem thầy sẽ cần phần nào trong báo cáo giữa kỳ
+  - **Câu 3:** Hỏi lại 2 yêu cầu đầu tiên cho chắc chắn
+  - **Câu 4:** Sẽ hỏi rõ hơn về yêu cầu "How to conduct demo?"
+    - Thầy sẽ quan tâm cấu trúc trình bày vào buổi seminar của nhóm như thế nào: Từ `intro` -> `related works` -> `method` -> `experiment` -> `conclusion` -> `demo`?
+  - **Câu 5:** Có cần trình bày step-by-step về mặt toán học khi chạy và huấn luyện mô hình hay không?
+  - **Câu 6:** Về yêu cầu "You need to do more experiments and analyses" thì có phải thầy mong muốn nhóm sẽ tiến hành các thí nghiệm để so sánh giữa các mô hình trên các tập dữ liệu khác nhau hay không? Hay thầy muốn nhóm sẽ thực hiện nhiều ứng dụng từ "facial landmark detection".
+  - **Câu 7:** Trong báo cáo nhóm sẽ trình bày 2 phương pháp: (1) phương pháp cổ điển trong sách version 2; và (2) phương pháp SOTA là `FaceXFormer`. Trong buổi thuyết trình nhóm có cần trình bày chi tiết phương pháp truyền thống hay không? Hay nhóm chỉ cần tập trung nhiều vào phương pháp SOTA?
+  - **Câu 8:** Với yêu cầu "Đã học được gì từ chapter trong sách" thì nhóm sẽ trình bày nội dung trong sách phiên bản 2 (thầy cung cấp) hay phiên bản 3 (mới nhất)? Nội dung trong sách 3E sẽ hiện đại hơn đã đề cập đến các kiến trúc tiên tiến như transformer, và đề xuất các multitask framework, v.v.
+  - **Câu 9:** Với yêu cầu trính bày SOTA method trong báo cáo giữa kỳ thì nhóm sẽ trình bày nội dung gì:
+    - Motivation & Idea, Đặc điểm nổi bật (multitask framework), v.v.?
+    - Có cần trình bày sâu vào kiến trúc không? Hay phần kiến trúc có thể để dành vào cuối kỳ để trình bày chi tiết hơn?
+- Chapter 4: FaceXFormer
+  - Motivation & Idea: Tín
+  - Dicussion & Conclusion: Tín
+  - Multitask training: Thiện
+  - Các phần còn lại: Thông & Phát
+
 # TODO: 15h T7, 29/03
 
 - Tập trung vào `FaceXFormer` làm method chính
