@@ -1,0 +1,8 @@
+git+https://github.com/thng292/facenet-pytorch.git
+gradio
+fastrtc
+streamlit
+streamlit-webrtc
+opencv-python
+huggingface_hub[cli]
+mediapipe
