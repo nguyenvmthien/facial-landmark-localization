@@ -4,6 +4,7 @@ import numpy as np
 
 mtcnn = MTCNN(keep_all=True, device=device).eval()
 
+
 def detect_faces(img) -> list[BoundingBox]:
     boxes, probs = mtcnn.detect(img)
     return [

@@ -6,3 +6,5 @@ Report/*
 Images/*
 # Exclude all models in the Models directory
 Models/*
+# Exclude all videos
+*.mp4

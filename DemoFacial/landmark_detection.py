@@ -1,14 +1,17 @@
 import torch
 import torchvision
 from torchvision.transforms import InterpolationMode
-from facexformer.network import FaceXFormer
+# from facexformer.network import FaceXFormer
+from network.models.facexformer import FaceXFormer
 from dataclasses import dataclass
 from PIL import Image
 import mediapipe as mp
 import numpy as np
 import cv2
 
-device = "cuda:0"
+
+# device = "cuda:0"
+device = "cuda" if torch.cuda.is_available() else "cpu"
 dtype = torch.float32
 weights_path = "ckpts/model.pt"
 # face_model_path = "ckpts/blaze_face_short_range.tflite"
@@ -74,7 +77,8 @@ def adjust_bbox(
 def denorm_points(points, h, w, align_corners=False):
     if align_corners:
         denorm_points = (
-            (points + 1) / 2 * torch.tensor([w - 1, h - 1]).to(points).view(1, 1, 2)
+            (points + 1) / 2 *
+            torch.tensor([w - 1, h - 1]).to(points).view(1, 1, 2)
         )
     else:
         denorm_points = (
@@ -144,7 +148,8 @@ def get_landmarks(faces: list[Face]):
     if len(faces) == 0:
         return []
 
-    images = torch.stack([face.image for face in faces]).to(device=device, dtype=dtype)
+    images = torch.stack([face.image for face in faces]
+                         ).to(device=device, dtype=dtype)
 
     tasks = torch.tensor([1] * len(faces), device=device, dtype=dtype)
     with torch.inference_mode():
@@ -166,6 +171,7 @@ def get_landmarks(faces: list[Face]):
 
     results = []
     for landmarks, face in zip(batch_denormed, faces):
-        results.append([(int(x + face.x_min), int(y + face.y_min)) for x, y in landmarks])
+        results.append([(int(x + face.x_min), int(y + face.y_min))
+                       for x, y in landmarks])
 
     return results

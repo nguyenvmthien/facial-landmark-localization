@@ -3,6 +3,7 @@
 # import torch
 # torch.classes.__path__ = []
 
+import sys
 import gradio as gr
 from fastrtc import WebRTC
 from fastrtc import VideoStreamHandler
@@ -30,9 +31,11 @@ def do_facial_landmark_recognition(
 
     return image
 
+
 def do_facial_landmark_recognition_with_mtcnn(image: np.ndarray):
     face_boxes = detect_faces(image)
     return do_facial_landmark_recognition(image, face_boxes)
+
 
 def video_frame_callback_gradio(frame: np.array):
     flipped = cv2.flip(frame, 1)
@@ -104,8 +107,6 @@ def test(times=10):
         f"Avg frametime: {sum(frame_times) / len(frame_times)}, FPS: {1 / (sum(frame_times) / len(frame_times))}",
     )
 
-
-import sys
 
 if __name__ == "__main__":
     if "--test" in sys.argv:
