@@ -1,4 +1,5 @@
-ckpts/
+# Exclude model's weights
+*.pt
 .venv/
 .vscode/
 **/__pycache__
