@@ -1,15 +1,12 @@
-import sys
-import argparse
-import cv2
+import os
 import numpy as np
+import cv2
 import landmark_detection
+import gradio as gr
 from mtcnn_facedetection import detect_faces
 
 
-def apply_sunglasses(image, landmarks):
-    # Load sunglasses image
-    sunglasses_img = cv2.imread("images/sunglasses.png", cv2.IMREAD_UNCHANGED)
-
+def apply_sunglasses(image, landmarks, sunglasses_img):
     # If image loading fails or no landmarks, return original image
     if sunglasses_img is None or not landmarks:
         return image
@@ -29,9 +26,13 @@ def apply_sunglasses(image, landmarks):
 
         # Calculate eye distance and angle
         eye_distance = np.linalg.norm(right_eye_center - left_eye_center)
-        angle = -np.degrees(np.arctan2(
-            right_eye_center[1] - left_eye_center[1],
-            right_eye_center[0] - left_eye_center[0]))
+        # Negate the angle to correct rotation direction
+        angle = -np.degrees(
+            np.arctan2(
+                right_eye_center[1] - left_eye_center[1],
+                right_eye_center[0] - left_eye_center[0],
+            )
+        )
 
         # Size for sunglasses based on eye distance
         width = int(eye_distance * 2.5)
@@ -61,7 +62,7 @@ def apply_sunglasses(image, landmarks):
             (new_width, new_height),
             flags=cv2.INTER_LINEAR,
             borderMode=cv2.BORDER_CONSTANT,
-            borderValue=(0, 0, 0, 0)
+            borderValue=(0, 0, 0, 0),
         )
 
         # Position the sunglasses
@@ -86,8 +87,9 @@ def apply_sunglasses(image, landmarks):
             if glasses_roi.shape[2] == 4 and roi.shape[:2] == glasses_roi.shape[:2]:
                 alpha = glasses_roi[:, :, 3] / 255.0
                 for c in range(3):
-                    roi[:, :, c] = (glasses_roi[:, :, c] * alpha +
-                                    roi[:, :, c] * (1 - alpha)).astype(np.uint8)
+                    roi[:, :, c] = (
+                        glasses_roi[:, :, c] * alpha + roi[:, :, c] * (1 - alpha)
+                    ).astype(np.uint8)
                 result[y1:y2, x1:x2] = roi
 
     return result
@@ -98,23 +100,23 @@ def do_facial_landmark_recognition(
 ):
     faces = landmark_detection.get_faces(image, face_boxes)
     landmarks_batch = landmark_detection.get_landmarks(faces)
-
-    # Apply sunglasses filter
-    image = apply_sunglasses(image, landmarks_batch)
-
-    return image
+    return landmarks_batch
 
 
-def do_facial_landmark_recognition_with_mtcnn(image: np.ndarray):
+def do_facial_landmark_recognition_with_mtcnn(image: np.ndarray, sunglasses_img):
     face_boxes = detect_faces(image)
-    return do_facial_landmark_recognition(image, face_boxes)
+    landmarks_batch = do_facial_landmark_recognition(image, face_boxes)
+    return apply_sunglasses(image, landmarks_batch, sunglasses_img)
 
 
-def process_video(input_path, output_path):
+def process_video(input_path, sunglasses_img):
+    output_path = os.path.join(
+        os.path.dirname(input_path), "output_" + os.path.basename(input_path)
+    )
     # Open the input video
     cap = cv2.VideoCapture(input_path)
     if not cap.isOpened():
-        print(f"Error opening input video file: {input_path}")
+        gr.Error(f"Error opening input video file: {input_path}")
         return
 
     # Get video properties
@@ -124,7 +126,7 @@ def process_video(input_path, output_path):
     total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
 
     # Create VideoWriter object
-    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+    fourcc = cv2.VideoWriter_fourcc(*"mp4v")
     out = cv2.VideoWriter(output_path, fourcc, fps, (width, height))
 
     frame_count = 0
@@ -136,32 +138,15 @@ def process_video(input_path, output_path):
             break
 
         # Process the frame
-        processed_frame = do_facial_landmark_recognition_with_mtcnn(frame)
+        processed_frame = do_facial_landmark_recognition_with_mtcnn(
+            frame, sunglasses_img
+        )
 
         # Write the frame
         out.write(processed_frame)
 
-        # Update progress
-        frame_count += 1
-        if frame_count % 10 == 0:
-            print(
-                f"Processed {frame_count}/{total_frames} frames ({frame_count/total_frames*100:.1f}%)")
-
     # Release resources
     cap.release()
     out.release()
-    print(f"Video processing complete. Output saved to: {output_path}")
-
-
-if __name__ == "__main__":
-    # # User input for video file paths from command line
-    # parser = argparse.ArgumentParser(
-    #     description='Apply sunglasses filter to video')
-    # parser.add_argument('input', help='Input video file path')
-    # parser.add_argument('output', help='Output video file path')
-    # args = parser.parse_args()
-    # process_video(args.input, args.output)
-
-    input_video_path = "funny_meme.mp4"
-    output_video_path = f"{input_video_path.split('.')[0]}_output.mp4"
-    process_video(input_video_path, output_video_path)
+    gr.Info(f"Video processing complete. Output saved to: {output_path}")
+    return output_path
