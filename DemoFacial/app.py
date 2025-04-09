@@ -4,19 +4,22 @@
 # torch.classes.__path__ = []
 
 import sys
+import os
+from glob import glob
 import gradio as gr
 from fastrtc import WebRTC
 from fastrtc import VideoStreamHandler
-import av
-from PIL import Image, ImageDraw
+from PIL import Image
 import landmark_detection
 import numpy as np
 from time import time
 import cv2
 from mtcnn_facedetection import detect_faces
+from selfie_filter import apply_sunglasses, process_video
 
 
 radius = 2
+filter_img = None
 
 
 def do_facial_landmark_recognition(
@@ -29,7 +32,7 @@ def do_facial_landmark_recognition(
         for landmark in landmarks:
             image = cv2.circle(image, landmark, radius, (255, 0, 0), -1)
 
-    return image
+    return image, landmarks_batch
 
 
 def do_facial_landmark_recognition_with_mtcnn(image: np.ndarray):
@@ -40,47 +43,93 @@ def do_facial_landmark_recognition_with_mtcnn(image: np.ndarray):
 def video_frame_callback_gradio(frame: np.array):
     flipped = cv2.flip(frame, 1)
 
-    flipped = do_facial_landmark_recognition_with_mtcnn(flipped)
+    flipped, landmarks_batch = do_facial_landmark_recognition_with_mtcnn(flipped)
+    # Apply sunglasses filter
+    image = apply_sunglasses(flipped, landmarks_batch, filter_img)
 
-    return flipped
-
-
-def video_frame_callback_streamlit(frame: av.VideoFrame):
-    img = frame.to_ndarray()
-    flipped = cv2.flip(img, 1)
-
-    flipped = do_facial_landmark_recognition(flipped)
-
-    return flipped
+    return image  # , AdditionalOutputs(flipped, flipped)
 
 
-# st.header("This is a test")
-# webrtc_streamer(key="sample", video_frame_callback=video_frame_callback_streamlit)
-
-# do_facial_landmark_recognition(Image.open("tmp.jpg")).save("gg.png")
-
-css = """.my-group {max-width: 600px !important; max-height: 600px !important;}
+css = """.my-group {max-width: 600px !important;}
          .my-column {display: flex !important; justify-content: center !important; align-items: center !important;}"""
 
+image_extensions = [
+    "*.jpg",
+    "*.jpeg",
+    "*.png",
+    "*.gif",
+    "*.bmp",
+    "*.tiff",
+    "*.webp",
+]
+all_image_files = []
+
+for ext in image_extensions:
+    pattern = os.path.join("images", "**", ext)  # '**' for recursive search
+    image_files = glob(pattern, recursive=True)
+    all_image_files.extend(image_files)
+all_image_files.sort()
+
+
 with gr.Blocks(css=css) as demo:
-    gr.HTML(
-        """
-        <h1 style='text-align: center'>
-        YOLOv10 Webcam Stream (Powered by WebRTC ⚡️)
-        </h1>
-        """
-    )
     with gr.Column(elem_classes=["my-column"]):
-        with gr.Group(elem_classes=["my-group"]):
-            image = WebRTC(label="Stream", rtc_configuration=None)
-        image.stream(
-            fn=VideoStreamHandler(
-                video_frame_callback_gradio, fps=12, skip_frames=True
-            ),
-            inputs=[image],
-            outputs=[image],
-            time_limit=None,
+        gr.HTML(
+            """
+            <h1 style='text-align: center'>
+            Live Filter with FaceXFormer
+            </h1>
+            """
         )
+        with gr.Group(elem_classes=["my-group"]):
+            selected_filter = gr.Dropdown(
+                choices=all_image_files,
+                label="Choose filter",
+                value="images/sunglasses_1.png",
+            )
+
+            def change_filter(filter_path):
+                global filter_img
+                try:
+                    filter_img = cv2.imread(filter_path, cv2.IMREAD_UNCHANGED)
+                except:
+                    gr.Error("Error open" + filter_path)
+
+            change_filter(selected_filter.value)
+
+            selected_filter.change(
+                change_filter, inputs=[selected_filter], show_progress="full"
+            )
+
+        with gr.Group(elem_classes=["my-group"]):
+            stream = WebRTC(label="Stream", rtc_configuration=None)
+            stream.stream(
+                fn=VideoStreamHandler(
+                    video_frame_callback_gradio, fps=12, skip_frames=True
+                ),
+                inputs=[stream],
+                outputs=[stream],
+                time_limit=None,
+            )
+
+        with gr.Group(elem_classes=["my-group"]):
+            with gr.Column(elem_classes=["my-column"]):
+                gr.HTML(
+                    """
+                    <h1 style='text-align: center'>
+                    Or just apply the filter to a video
+                    </h1>
+                    """
+                )
+                input_video = gr.Video(sources="upload", include_audio=False)
+                output_video = gr.Video(interactive=False, include_audio=False)
+                submit = gr.Button(variant="primary")
+            with gr.Column(elem_classes=["my-column"]):
+                submit.click(
+                    lambda input_path: process_video(input_path, filter_img),
+                    inputs=[input_video],
+                    outputs=[output_video],
+                    show_progress="full",
+                )
 
 
 def test(times=10):
