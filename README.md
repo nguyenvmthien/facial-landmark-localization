@@ -3,6 +3,11 @@
 - Lịch họp định kỳ: 15h T7 hàng tuần
 - Lịch họp đột xuất (nếu có): 15h T4
 
+# TODO: 19h tối T6, 11/04
+
+- Hoàn thành midterm report dựa theo yêu cầu đã được giảng viên giải đáp vào sáng T5
+- Yêu cầu chính xác cho midterm report: sẽ cập nhật vào T5 (10/04)
+
 # TODO: Trưa và chiều T4, 09/04
 
 - Sáng thứ T4 (ngày 09/04), rảnh lúc 11h30 (I81)
