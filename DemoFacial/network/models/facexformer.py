@@ -184,7 +184,7 @@ class PositionEmbeddingRandom(nn.Module):
 class FaceXFormerMLP(nn.Module):
     def __init__(self, input_dim):
         super().__init__()
-        self.proj = nn.Linear(input_dim, 256)
+        self.proj = nn.Linear(input_dim, 256) # 128, 256, 512, 1024 => 256
 
     def forward(self, hidden_states: torch.Tensor):
         hidden_states = hidden_states.flatten(2).transpose(1, 2)
@@ -238,8 +238,8 @@ class FaceXFormer(nn.Module):
         self.linear_c = nn.ModuleList(mlps)
 
         self.linear_fuse = nn.Conv2d(
-            in_channels=decoder_hidden_size * num_encoder_blocks,
-            out_channels=decoder_hidden_size,
+            in_channels=decoder_hidden_size * num_encoder_blocks, # 1024
+            out_channels=decoder_hidden_size, # 256
             kernel_size=1,
             bias=False,
         )
