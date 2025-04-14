@@ -3,13 +3,18 @@
 - Lịch họp định kỳ: 15h T7 hàng tuần
 - Lịch họp đột xuất (nếu có): 15h T4
 
+# TODO: Đến deadline nộp báo cáo giữa kỳ
+
+- Hoàn thành báo cáo giữa kỳ (midterm report) theo yêu cầu của giảng viên
+- Bổ sung thêm những nội dung còn thiếu
+
 # TODO: 19h tối T7, 12/04
 
 - YC1,2,3 dựa vào bảng phân công trên Zalo
 - Bổ sung ý tưởng cho YC3:
   - Thử train lại 1 task thôi xem được không + giảm model size
   - Viết thêm mục "completion progress" (xem hình của Thiện gửi) cho báo cáo giữa kỳ
-- Paper FaceXFormer dùng version 2
+- Paper FaceXFormer dùng version 3
 
 # TODO: 19h tối T6, 11/04
 
