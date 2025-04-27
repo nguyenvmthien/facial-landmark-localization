@@ -3,6 +3,27 @@
 - Lịch họp định kỳ: 15h T7 hàng tuần
 - Lịch họp đột xuất (nếu có): 15h T4
 
+# TODO: Lịch họp
+
+- Lịch họp:
+  - Tối T5 (01/05): 19h
+  - Trưa CN (04/05): 13h
+  - T5 (08/05)
+  - T7/CN (10-11/05): Họp review
+- Nội dung:
+  - Làm phần thực nghiệm cho bài báo
+  - Bảng phân công công việc
+  - Viết báo cáo cuối kỳ:
+    - Phát: Team Info + Working Title
+  - Làm slide cho seminar:
+    1. Introduction
+    2. Related works
+    3. Method
+    4. Experiments & Demo
+    5. Dicussion & Conclusion
+  - Train model
+    - Số lượng weights = Số lượng epoch + 1 (best)
+
 # TODO: Đến deadline nộp báo cáo giữa kỳ
 
 - Hoàn thành báo cáo giữa kỳ (midterm report) theo yêu cầu của giảng viên
