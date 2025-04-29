@@ -2,9 +2,11 @@
 Development/*
 # Exclude all files in the Report directory
 Report/*
-# Exclude all image files in the Images directory
+# Exclude all images in the Images directory
 Images/*
 # Exclude all models in the Models directory
 Models/*
 # Exclude all videos
 *.mp4
+# Exclude all files in the LaTeX directory
+LaTeX/*

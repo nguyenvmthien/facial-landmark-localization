@@ -3,6 +3,40 @@
 - Lịch họp định kỳ: 15h T7 hàng tuần
 - Lịch họp đột xuất (nếu có): 15h T4
 
+# TODO: Lịch họp
+
+- Lịch họp:
+  - Tối T5 (01/05): 19h
+  - Trưa CN (04/05): 13h
+  - T5 (08/05)
+  - T7/CN (10-11/05): Họp review
+- Nội dung:
+  - Làm phần thực nghiệm cho bài báo
+  - Bảng phân công công việc
+  - Viết báo cáo cuối kỳ:
+    - Phát: Team Info + Working Title
+  - Làm slide cho seminar:
+    1. Introduction
+    2. Related works
+    3. Method
+    4. Experiments & Demo
+    5. Dicussion & Conclusion
+  - Train model
+    - Số lượng weights = Số lượng epoch + 1 (best)
+
+# TODO: Đến deadline nộp báo cáo giữa kỳ
+
+- Hoàn thành báo cáo giữa kỳ (midterm report) theo yêu cầu của giảng viên
+- Bổ sung thêm những nội dung còn thiếu
+
+# TODO: 19h tối T7, 12/04
+
+- YC1,2,3 dựa vào bảng phân công trên Zalo
+- Bổ sung ý tưởng cho YC3:
+  - Thử train lại 1 task thôi xem được không + giảm model size
+  - Viết thêm mục "completion progress" (xem hình của Thiện gửi) cho báo cáo giữa kỳ
+- Paper FaceXFormer dùng version 3
+
 # TODO: 19h tối T6, 11/04
 
 - Hoàn thành midterm report dựa theo yêu cầu đã được giảng viên giải đáp vào sáng T5
@@ -14,20 +48,138 @@
   - Bắt đầu họp vào 12h30 + meeting offline ở thư viện
 - Viết các phần trong report cho báo cáo cuối kỳ
 - Soạn câu hỏi cho giảng viên về yêu cầu của report giữa kỳ:
-  - **Câu 1:** Số trang kỳ vọng trong báo cáo đồ án giữa kỳ: từ `x` => `y` trang
-  - **Câu 2:** Nội dung sẽ bao gồm những phần gì?
-    - Dùng cấu trúc report hiện tại của nhóm để hỏi xem thầy sẽ cần phần nào trong báo cáo giữa kỳ
-  - **Câu 3:** Hỏi lại 2 yêu cầu đầu tiên cho chắc chắn
-  - **Câu 4:** Sẽ hỏi rõ hơn về yêu cầu "How to conduct demo?"
-    - Thầy sẽ quan tâm cấu trúc trình bày vào buổi seminar của nhóm như thế nào: Từ `intro` -> `related works` -> `method` -> `experiment` -> `conclusion` -> `demo`?
-  - **Câu 5:** Có cần trình bày step-by-step về mặt toán học khi chạy và huấn luyện mô hình hay không?
-  - **Câu 6:** Về yêu cầu "You need to do more experiments and analyses" thì có phải thầy mong muốn nhóm sẽ tiến hành các thí nghiệm để so sánh giữa các mô hình trên các tập dữ liệu khác nhau hay không? Hay thầy muốn nhóm sẽ thực hiện nhiều ứng dụng từ "facial landmark detection".
-  - **Câu 7:** Trong báo cáo nhóm sẽ trình bày 2 phương pháp: (1) phương pháp cổ điển trong sách version 2; và (2) phương pháp SOTA là `FaceXFormer`. Trong buổi thuyết trình nhóm có cần trình bày chi tiết phương pháp truyền thống hay không? Hay nhóm chỉ cần tập trung nhiều vào phương pháp SOTA?
-  - **Câu 8:** Với yêu cầu "Đã học được gì từ chapter trong sách" thì nhóm sẽ trình bày nội dung trong sách phiên bản 2 (thầy cung cấp) hay phiên bản 3 (mới nhất)? Nội dung trong sách 3E sẽ hiện đại hơn đã đề cập đến các kiến trúc tiên tiến như transformer, và đề xuất các multitask framework, v.v.
-  - **Câu 9:** Với yêu cầu trính bày SOTA method trong báo cáo giữa kỳ thì nhóm sẽ trình bày nội dung gì:
-    - Motivation & Idea, Đặc điểm nổi bật (multitask framework), v.v.?
-    - Có cần trình bày sâu vào kiến trúc không? Hay phần kiến trúc có thể để dành vào cuối kỳ để trình bày chi tiết hơn?
-- Chapter 4: FaceXFormer
+
+## Danh sách câu hỏi
+
+- **Câu 1:** Số trang kỳ vọng trong báo cáo đồ án giữa kỳ: từ `x` => `y` trang
+
+```
+- Báo cáo giữa kỳ: Không có giới hạn về số trang nhưng nên trình bày đầy đủ các ý được yêu cầu
+- Báo cáo cuối kỳ: 20-30 trang
+```
+
+- **Câu 2:** Nội dung của báo cáo giữa kỳ sẽ bao gồm những phần gì?
+  - Dùng cấu trúc report hiện tại của nhóm để hỏi xem thầy sẽ cần phần nào trong báo cáo giữa kỳ
+
+```
+- 3 yêu cầu trên Moodle là "yêu cầu tối thiểu" phải có trong báo cáo giữa kỳ
+- Nhóm có thể viết thêm các nội dung khác nếu muốn. Ví dụ:
+  - Cấu trúc chung của báo cáo cuối kỳ, nội dung chính của các chapter
+  - Danh sách tài liệu tham khảo được sử dụng trong báo cáo giữa kỳ và cuối kỳ
+```
+
+- **Câu 3:** Hỏi lại 3 yêu cầu của báo cáo giữa kỳ
+
+```
+Midterm report không có format cụ thể, nhưng phải có đủ 3 ý, có thể trình bày thêm các nội dung khác
+
+[1] YC1: Giới thiệu về chủ đề, bài toán, task cần thực hiện là gì?
+
+[2] YC2:
+- Nêu ra tên? Năm paper ra mắt? Link bài báo? Công trình này có được công bố trên 1 hội nghị lớn nào hay không?
+- Mô tả phương pháp, mục đích của method này là gì, input đầu vào là gì, output đầu ra là gì?
+- Nêu những điểm nổi bật của phương pháp?
+- Có thể nói thêm về cách hoạt động của mothod? Nếu nhóm đã hiểu về phương pháp thì cho một ví dụ minh họa để xem dữ liệu đầu vào sẽ trải qua những bước biến đổi như thế nào khi đi vào framework?
+
+[3] YC3: (Làm sao để làm ra được sản phẩm demo?)
+- How?: Làm sao để chạy được phần thực nghiệm? Nhóm sẽ trình bày ra cách mà nhóm sẽ thực nghiệm như thế nào?
+- Thu thập dữ liệu, huấn luyện, tinh chỉnh về RAM, v.v.
+- Đây là phần để nhóm tự do sáng tạo
+
+[4] Nêu thêm tài liệu tham khảo được sử dụng
+```
+
+- **Câu 4:** Sẽ hỏi rõ hơn về yêu cầu "How to conduct demo?"
+  - Thầy sẽ quan tâm cấu trúc trình bày vào buổi seminar của nhóm như thế nào: Từ `intro` -> `related works` -> `method` -> `experiment` -> `conclusion` -> `demo`?
+
+```
+- YC3: Xem phần trả lời ở câu 3
+- Phần method không cần trình bày phương pháp được đề cập trong sách mà sẽ trình bày 1 phương pháp SOTA mà nhóm tìm được ở bên ngoài
+```
+
+- **Câu 5:** Có cần trình bày step-by-step về mặt toán học khi chạy và huấn luyện mô hình hay không?
+
+```
+
+```
+
+- **Câu 6:** Về yêu cầu "You need to do more experiments and analyses" thì có phải thầy mong muốn nhóm sẽ tiến hành các thí nghiệm để so sánh giữa các mô hình trên các tập dữ liệu khác nhau hay không? Hay thầy muốn nhóm sẽ thực hiện nhiều ứng dụng từ "facial landmark detection".
+
+```
+- Nếu được thì nhóm có thể tiến hành huấn luyện lại mô hình trên các tập dữ liệu nhỏ hơn để kiểm tra lại số liệu của mô hình xem có khớp với số liệu được công bố hay không?
+- Nhóm sẽ cần xây dựng 1 ứng dụng nhỏ để demo cho thầy thấy được khả năng của mô hình mà nhóm đã chọn (vd: mô hình xác định điểm mốc trên khuôn mặt tốt như thế nào?), sau đó có thể cải tiến thêm ứng dụng (vd: gắn mắt kính lên mặt, v.v.)
+```
+
+- **Câu 7:** Trong báo cáo nhóm sẽ trình bày 2 phương pháp: (1) phương pháp cổ điển trong sách version 2; và (2) phương pháp SOTA là `FaceXFormer`. Trong buổi thuyết trình nhóm có cần trình bày chi tiết phương pháp truyền thống hay không? Hay nhóm chỉ cần tập trung nhiều vào phương pháp SOTA?
+
+```
+- Đối với cả báo cáo và thuyết trình: Nhóm không cần trình bày phương pháp cũ được đề cập trong sách mà tập trung vào SOTA method luôn
+```
+
+- **Câu 8:** Với yêu cầu "Đã học được gì từ chapter trong sách" thì nhóm sẽ trình bày nội dung trong sách phiên bản 2 (thầy cung cấp) hay phiên bản 3 (mới nhất)? Nội dung trong sách 3E sẽ hiện đại hơn đã đề cập đến các kiến trúc tiên tiến như transformer, và đề xuất các multitask framework, v.v.
+
+```
+- Có thể dùng nội dung trong sách 2E hoặc 3E đều được
+- Nếu dùng nội dung trong sách 3E thì phải đính kèm cuốn sách 3E (file .PDF) vào bài nộp giữa kỳ luôn
+- Không cần phải trình bày phương pháp được đề cập trong sách vì nó có thể đã quá cũ rồi
+- Nhóm chỉ dùng sách để xác định chủ đề và hiểu rõ hơn về bài toán.
+```
+
+- **Câu 9:** Với yêu cầu trình bày SOTA method trong báo cáo giữa kỳ thì nhóm sẽ trình bày nội dung gì:
+  - Motivation & Idea, Đặc điểm nổi bật (multitask framework), v.v.?
+  - Có cần trình bày sâu vào kiến trúc không? Hay phần kiến trúc có thể để dành vào cuối kỳ để trình bày chi tiết hơn?
+
+```
+- Trong báo cáo giữa kỳ chỉ cần trình bày giống như được mô tả trong phần trả lời của câu 3
+- Trong báo cáo cuối kỳ mới cần phải trình bày chi tiết hơn về kiến trúc của phương pháp SOTA
+```
+
+## Những nội dung khác có liên quan
+
+- Báo cáo có thể viết tiếng Việt hay tiếng Anh đều được (thầy khuyến khích viết tiếng Anh)
+- Nên viết thành paragraph chứ không nên liệt kê
+- Nên đánh tài liệu tham khảo vào phần trình bày
+- Chọn chủ đề trong sách, nhưng có thể chọn phương pháp bên ngoài và thực nghiệm lại phương pháp (chạy phương pháp trên dataset) đã chọn
+- Nếu không có khả năng train model thì phải hiểu rất rõ phương pháp để trình bày lại cho 2 thầy
+- Nếu có thể nâng cấp, cải tiến mô hình thì sẽ tốt hơn
+- Chỉ 1 thành viên dại diện nộp bài lên Moodle
+
+## Final Submission
+
+- Ngày nộp trên Moodle có thể sớm hơn ngày seminar trên lớp
+- Các nội dung cần nộp (xem rõ hơn trên Moodle):
+  - `PPT`: Nộp file thuyết trình
+    - Đến buổi seminar, thầy cho phép chỉnh sửa lại slide nếu cần, nhưng phải nói cho thầy biết để thầy mở lại link nộp bài
+    - Nên làm slide trên PowerPoint hoặc Google Slide để có thể nộp file .ppt hoặc .pptx
+    - Có thể nộp file .PDF nếu nhóm làm trên Canva
+  - `Báo cáo`: Report từ 20-30 trang (File PDF)
+    - Thầy khuyến khích nên có đủ các phần như trong file báo cáo của 1 nhóm trong năm trước (file này nhóm mình có rồi)
+    - Phần `Related works`: 2-3 phương pháp trước đó rồi mới dẫn nhập cho phương pháp của nhóm (các phương pháp trước đó có nhược điểm gì mà mình cần phải có phương pháp mới)
+    - Phần `Method`: Nên trình bày step-by-step các hoạt động của method (có thể dùng hình ảnh minh họa cho dễ hiểu)
+    - Phần `Demo`: Có thể quay video demo để chiếu lên cho thầy và các bạn xem, nêu về phần cứng sử dụng, v.v.
+    - Phần `Experiment`: Trình bày thêm về các tập dữ liệu được sử dụng, metric để đánh giá, đưa vào một vài hình ảnh thực nghiệm
+    - Phần `References`: Phải nêu chi tiết về tài liệu tham khảo (nên dùng định dạng citation chuẩn)
+  - `Source code`: Toàn bộ source code và dữ liệu liên quan (có thể nộp file nén hoặc gửi link GitHub của nhóm)
+  - `.DOC`: File mô tả công việc chi tiết của từng thành viên trong nhóm
+    - File .doc cố gắng trình bày rõ nội dung phân công công việc cho mỗi thành viên
+- Nộp 1 file .txt chứa link đến Google Drive trên Moodle
+
+## Seminar cuối kỳ
+
+- Thuyết trình trên lớp (offline), các bạn khác và 2 TA sẽ nghe, có phần ký tên vào bảng điểm
+- Mỗi nhóm có đúng `15 phút` thuyết trình (cả slide + demo), sau 15 phút bắt buộc dừng thuyết trình và chuyển sang vấn đáp (thường là trả lời từ 1-2 câu)
+  - Slide đừng dài quá, không nên viết quá nhiều chữ, chỉ cần viết các ý chính thôi
+  - Nên có hình ảnh minh họa cho dễ hiểu
+- Tất cả nhóm vấn đáp vào 1 buổi sáng như đi học thông thường
+- Khi trình bày thì tất cả thành viên sẽ đứng ở trên bục, không bắt buộc tất cả thành viên phải trình bày, nhưng khuyến khích các thành viên trình bày phần mà mình được phân công
+- Thầy sẽ đặt các câu hỏi cho nhóm, thành viên nào trả lời cũng được
+- Sau nghỉ lễ sẽ có lịch để seminar
+  - Seminar sẽ diễn ra vào tuần đầu tiên của tháng 5
+  - Có thể tổ chức vào sáng T5 (ngày 08/05)
+
+## Task cho SOTA method
+
+- Chapter SOTA method: FaceXFormer
   - Motivation & Idea: Tín
   - Dicussion & Conclusion: Tín
   - Multitask training: Thiện
