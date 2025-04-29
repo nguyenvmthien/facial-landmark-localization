@@ -10,3 +10,5 @@ Models/*
 *.mp4
 # Exclude all files in the LaTeX directory
 LaTeX/*
+# Exclude big weight files
+Source/ckpts/model.pt
