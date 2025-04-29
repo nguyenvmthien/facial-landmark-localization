@@ -57,11 +57,13 @@ class FaceDecoder(nn.Module):
 
         self.output_upscaling = nn.Sequential(
             nn.ConvTranspose2d(
-                transformer_dim, transformer_dim // 4, kernel_size=2, stride=2),
+                transformer_dim, transformer_dim // 4, kernel_size=2, stride=2
+            ),
             LayerNorm2d(transformer_dim // 4),
             activation(),
-            nn.ConvTranspose2d(transformer_dim // 4,
-                               transformer_dim // 8, kernel_size=2, stride=2),
+            nn.ConvTranspose2d(
+                transformer_dim // 4, transformer_dim // 8, kernel_size=2, stride=2
+            ),
             activation(),
         )
 
@@ -69,37 +71,33 @@ class FaceDecoder(nn.Module):
             transformer_dim, transformer_dim, transformer_dim // 8, 3
         )
 
-        self.landmarks_prediction_head = MLP(
-            transformer_dim, transformer_dim, 136, 3
-        )
-        self.pose_prediction_head = MLP(
-            transformer_dim, transformer_dim, 3, 3
-        )
-        self.attribute_prediction_head = MLP(
-            transformer_dim, transformer_dim, 40, 3
-        )
-        self.visibility_prediction_head = MLP(
-            transformer_dim, transformer_dim, 29, 3
-        )
-        self.age_prediction_head = MLP(
-            transformer_dim, transformer_dim, 8, 3
-        )
-        self.gender_prediction_head = MLP(
-            transformer_dim, transformer_dim, 2, 3
-        )
-        self.race_prediction_head = MLP(
-            transformer_dim, transformer_dim, 5, 3
-        )
+        self.landmarks_prediction_head = MLP(transformer_dim, transformer_dim, 136, 3)
+        self.pose_prediction_head = MLP(transformer_dim, transformer_dim, 3, 3)
+        self.attribute_prediction_head = MLP(transformer_dim, transformer_dim, 40, 3)
+        self.visibility_prediction_head = MLP(transformer_dim, transformer_dim, 29, 3)
+        self.age_prediction_head = MLP(transformer_dim, transformer_dim, 8, 3)
+        self.gender_prediction_head = MLP(transformer_dim, transformer_dim, 2, 3)
+        self.race_prediction_head = MLP(transformer_dim, transformer_dim, 5, 3)
 
     def forward(
         self,
         image_embeddings: torch.Tensor,
         image_pe: torch.Tensor,
     ) -> Tuple[torch.Tensor, torch.Tensor]:
-        output_tokens = torch.cat([self.landmarks_token.weight, self.pose_token.weight, self.attribute_token.weight, self.visibility_token.weight,
-                                  self.age_token.weight, self.gender_token.weight, self.race_token.weight, self.mask_tokens.weight], dim=0)
-        tokens = output_tokens.unsqueeze(0).expand(
-            image_embeddings.size(0), -1, -1)
+        output_tokens = torch.cat(
+            [
+                self.landmarks_token.weight,
+                self.pose_token.weight,
+                self.attribute_token.weight,
+                self.visibility_token.weight,
+                self.age_token.weight,
+                self.gender_token.weight,
+                self.race_token.weight,
+                self.mask_tokens.weight,
+            ],
+            dim=0,
+        )
+        tokens = output_tokens.unsqueeze(0).expand(image_embeddings.size(0), -1, -1)
 
         src = image_embeddings
         pos_src = image_pe.expand(image_embeddings.size(0), -1, -1, -1)
@@ -119,8 +117,7 @@ class FaceDecoder(nn.Module):
         landmark_output = self.landmarks_prediction_head(landmarks_token_out)
         headpose_output = self.pose_prediction_head(pose_token_out)
         attribute_output = self.attribute_prediction_head(attribute_token_out)
-        visibility_output = self.visibility_prediction_head(
-            visibility_token_out)
+        visibility_output = self.visibility_prediction_head(visibility_token_out)
         age_output = self.age_prediction_head(age_token_out)
         gender_output = self.gender_prediction_head(gender_token_out)
         race_output = self.race_prediction_head(race_token_out)
@@ -129,10 +126,18 @@ class FaceDecoder(nn.Module):
         upscaled_embedding = self.output_upscaling(src)
         hyper_in = self.output_hypernetwork_mlps(mask_token_out)
         b, c, h, w = upscaled_embedding.shape
-        seg_output = (hyper_in @ upscaled_embedding.view(b,
-                      c, h * w)).view(b, -1, h, w)
+        seg_output = (hyper_in @ upscaled_embedding.view(b, c, h * w)).view(b, -1, h, w)
 
-        return landmark_output, headpose_output, attribute_output, visibility_output, age_output, gender_output, race_output, seg_output
+        return (
+            landmark_output,
+            headpose_output,
+            attribute_output,
+            visibility_output,
+            age_output,
+            gender_output,
+            race_output,
+            seg_output,
+        )
 
 
 class PositionEmbeddingRandom(nn.Module):
@@ -184,7 +189,7 @@ class PositionEmbeddingRandom(nn.Module):
 class FaceXFormerMLP(nn.Module):
     def __init__(self, input_dim):
         super().__init__()
-        self.proj = nn.Linear(input_dim, 256) # 128, 256, 512, 1024 => 256
+        self.proj = nn.Linear(input_dim, 256)  # 128, 256, 512, 1024 => 256
 
     def forward(self, hidden_states: torch.Tensor):
         hidden_states = hidden_states.flatten(2).transpose(1, 2)
@@ -197,16 +202,15 @@ class FaceXFormer(nn.Module):
         super(FaceXFormer, self).__init__()
 
         # Backbone: Swin-B
-        swin_v2 = swin_b(weights='IMAGENET1K_V1')
-        self.backbone = torch.nn.Sequential(
-            *(list(swin_v2.children())[:-1]))
+        swin_v2 = swin_b(weights="IMAGENET1K_V1")
+        self.backbone = torch.nn.Sequential(*(list(swin_v2.children())[:-1]))
 
         # # Backbone: ConvNext-B
         # convnext_v2 = convnext_base(weights='IMAGENET1K_V1')
         # self.backbone = torch.nn.Sequential(
         #     *(list(convnext_v2.children())[:-1]))
 
-        self.target_layer_names = ['0.1', '0.3', '0.5', '0.7']
+        self.target_layer_names = ["0.1", "0.3", "0.5", "0.7"]
         self.multi_scale_features = []
 
         embed_dim = 1024
@@ -225,7 +229,8 @@ class FaceXFormer(nn.Module):
                 embedding_dim=256,
                 mlp_dim=2048,
                 num_heads=8,
-            ))
+            ),
+        )
 
         num_encoder_blocks = 4
         hidden_sizes = [128, 256, 512, 1024]
@@ -238,17 +243,22 @@ class FaceXFormer(nn.Module):
         self.linear_c = nn.ModuleList(mlps)
 
         self.linear_fuse = nn.Conv2d(
-            in_channels=decoder_hidden_size * num_encoder_blocks, # 1024
-            out_channels=decoder_hidden_size, # 256
+            in_channels=decoder_hidden_size * num_encoder_blocks,  # 1024
+            out_channels=decoder_hidden_size,  # 256
             kernel_size=1,
             bias=False,
         )
 
     def save_features_hook(self, name):
         def hook(module, input, output):
-            self.multi_scale_features.append(
-                output.permute(0, 3, 1, 2).contiguous())
+            self.multi_scale_features.append(output.permute(0, 3, 1, 2).contiguous())
+
         return hook
+
+    def loss(self, predictions, labels):
+        # Used L2 loss for now
+        loss = torch.pow(predictions - labels, 2)
+        return torch.mean(loss)
 
     def forward(self, x, labels, tasks):
         self.multi_scale_features.clear()
@@ -264,40 +274,59 @@ class FaceXFormer(nn.Module):
             encoder_hidden_state = mlp(encoder_hidden_state)
             encoder_hidden_state = encoder_hidden_state.permute(0, 2, 1)
             encoder_hidden_state = encoder_hidden_state.reshape(
-                batch_size, -1, height, width)
+                batch_size, -1, height, width
+            )
             encoder_hidden_state = nn.functional.interpolate(
-                encoder_hidden_state, size=self.multi_scale_features[0].size()[2:], mode="bilinear", align_corners=False
+                encoder_hidden_state,
+                size=self.multi_scale_features[0].size()[2:],
+                mode="bilinear",
+                align_corners=False,
             )
             all_hidden_states += (encoder_hidden_state,)
 
-        fused_states = self.linear_fuse(
-            torch.cat(all_hidden_states[::-1], dim=1))
+        fused_states = self.linear_fuse(torch.cat(all_hidden_states[::-1], dim=1))
         image_pe = self.pe_layer(
-            (fused_states.shape[2], fused_states.shape[3])).unsqueeze(0)
+            (fused_states.shape[2], fused_states.shape[3])
+        ).unsqueeze(0)
 
-        landmark_output, headpose_output, attribute_output, visibility_output, age_output, gender_output, race_output, seg_output = self.face_decoder(
-            image_embeddings=fused_states,
-            image_pe=image_pe
-        )
+        (
+            landmark_output,
+            headpose_output,
+            attribute_output,
+            visibility_output,
+            age_output,
+            gender_output,
+            race_output,
+            seg_output,
+        ) = self.face_decoder(image_embeddings=fused_states, image_pe=image_pe)
 
-        segmentation_indices = (tasks == 0)
+        segmentation_indices = tasks == 0
         seg_output = seg_output[segmentation_indices]
 
-        landmarks_indices = (tasks == 1)
+        landmarks_indices = tasks == 1
         landmark_output = landmark_output[landmarks_indices]
 
-        headpose_indices = (tasks == 2)
+        headpose_indices = tasks == 2
         headpose_output = headpose_output[headpose_indices]
 
-        attribute_indices = (tasks == 3)
+        attribute_indices = tasks == 3
         attribute_output = attribute_output[attribute_indices]
 
-        age_indices = (tasks == 4)
+        age_indices = tasks == 4
         age_output = age_output[age_indices]
         gender_output = gender_output[age_indices]
         race_output = race_output[age_indices]
 
-        visibility_indices = (tasks == 5)
+        visibility_indices = tasks == 5
         visibility_output = visibility_output[visibility_indices]
 
-        return landmark_output, headpose_output, attribute_output, visibility_output, age_output, gender_output, race_output, seg_output
+        return (
+            landmark_output,
+            headpose_output,
+            attribute_output,
+            visibility_output,
+            age_output,
+            gender_output,
+            race_output,
+            seg_output,
+        )
