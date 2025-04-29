@@ -158,6 +158,12 @@ def test(times=10):
 
 
 if __name__ == "__main__":
+    no_params = 0
+    for name, i in landmark_detection.model.named_parameters(recurse=True):
+        no_params += i.numel()
+        print(name, i.numel())
+
+    print(no_params)
     if "--test" in sys.argv:
         test()
     else:
