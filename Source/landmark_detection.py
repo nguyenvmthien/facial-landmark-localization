@@ -12,8 +12,8 @@ import numpy as np
 # device = "cuda:0"
 device = "cuda" if torch.cuda.is_available() else "cpu"
 dtype = torch.float32
-weights_path = "ckpts/model.pt"
-# weights_path = "ckpts/pytorch_model.bin"
+# weights_path = "ckpts/model.pt"
+weights_path = "ckpts/pytorch_model.bin"
 # face_model_path = "ckpts/blaze_face_short_range.tflite"
 
 # import mediapipe as mp
@@ -47,8 +47,8 @@ transforms_image = torchvision.transforms.Compose(
 def load_model(weights_path):
     model = FaceXFormer().to(device)
     checkpoint = torch.load(weights_path, map_location=device)
-    # model.load_state_dict(checkpoint)
-    model.load_state_dict(checkpoint["state_dict_backbone"])
+    model.load_state_dict(checkpoint)
+    # model.load_state_dict(checkpoint["state_dict_backbone"])
     model = model.eval()
     model = model.to(dtype=dtype)
     # model = torch.compile(model, mode="reduce-overhead")
