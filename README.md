@@ -3,6 +3,18 @@
 - Lịch họp định kỳ: 15h T7 hàng tuần
 - Lịch họp đột xuất (nếu có): 15h T4
 
+# TODO: Demo
+
+## Lấy số liệu để báo cáo
+
+- Train bằng STARLOSS để kiểm tra kết quả
+  - Nạp 3 tokens
+- Thử với các backbone khác nhau
+
+## Demo sản phẩm
+
+- Deploy webapp lên HuggingFace để dùng free GPU
+
 # TODO: Lịch họp
 
 - Lịch họp:
