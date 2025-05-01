@@ -133,13 +133,13 @@ with gr.Blocks(css=css) as demo:
 
 
 def test(times=10):
-    image = Image.open("tmp.jpg").resize((512, 512))
+    image = np.array(Image.open("tmp.jpg").resize((512, 512)))
     # faces = ai.get_faces(image)
     start = time()
     frame_times = [None] * times
     for i in range(times):
         before = time()
-        do_facial_landmark_recognition(image)
+        do_facial_landmark_recognition_with_mtcnn(image)
         after = time()
         frame_times[i] = after - before
     end = time()
@@ -166,5 +166,6 @@ if __name__ == "__main__":
     print(no_params)
     if "--test" in sys.argv:
         test()
+        exit(0)
     else:
         demo.launch()

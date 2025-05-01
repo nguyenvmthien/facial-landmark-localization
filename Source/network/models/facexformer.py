@@ -6,6 +6,7 @@ import torchvision.models as models
 from typing import Any, Optional, Tuple, Type
 from torchvision.models import swin_b, convnext_base
 from .transformer import TwoWayTransformer, LayerNorm2d
+from transformers.utils.generic import ModelOutput
 
 
 class MLP(nn.Module):
@@ -255,12 +256,7 @@ class FaceXFormer(nn.Module):
 
         return hook
 
-    def loss(self, predictions, labels):
-        # Used L2 loss for now
-        loss = torch.pow(predictions - labels, 2)
-        return torch.mean(loss)
-
-    def forward(self, x, labels, tasks):
+    def predict(self, x, labels, tasks):
         self.multi_scale_features.clear()
 
         _, _, h, w = x.shape
@@ -329,4 +325,63 @@ class FaceXFormer(nn.Module):
             gender_output,
             race_output,
             seg_output,
+        )
+
+    def loss(self, predictions: torch.Tensor, labels: torch.Tensor):
+        # print(predictions.shape)
+        # print(labels.shape)
+        # print("predic:", predictions)
+        # print("labels:", labels)
+        # Used L2 loss for now
+        loss = torch.pow(predictions - labels, 2)
+        return torch.mean(loss)
+
+    def forward(self, x, labels):
+        self.multi_scale_features.clear()
+
+        _, _, h, w = x.shape
+        features = self.backbone(x).squeeze()
+
+        batch_size = self.multi_scale_features[-1].shape[0]
+        all_hidden_states = ()
+        for encoder_hidden_state, mlp in zip(self.multi_scale_features, self.linear_c):
+
+            height, width = encoder_hidden_state.shape[2], encoder_hidden_state.shape[3]
+            encoder_hidden_state = mlp(encoder_hidden_state)
+            encoder_hidden_state = encoder_hidden_state.permute(0, 2, 1)
+            encoder_hidden_state = encoder_hidden_state.reshape(
+                batch_size, -1, height, width
+            )
+            encoder_hidden_state = nn.functional.interpolate(
+                encoder_hidden_state,
+                size=self.multi_scale_features[0].size()[2:],
+                mode="bilinear",
+                align_corners=False,
+            )
+            all_hidden_states += (encoder_hidden_state,)
+
+        fused_states = self.linear_fuse(torch.cat(all_hidden_states[::-1], dim=1))
+        image_pe = self.pe_layer(
+            (fused_states.shape[2], fused_states.shape[3])
+        ).unsqueeze(0)
+
+        (
+            landmark_output,
+            headpose_output,
+            attribute_output,
+            visibility_output,
+            age_output,
+            gender_output,
+            race_output,
+            seg_output,
+        ) = self.face_decoder(image_embeddings=fused_states, image_pe=image_pe)
+
+        # All tasks are landmark prediction
+        if labels is not None:
+            loss = self.loss(landmark_output.view(-1, 68, 2), labels)
+        else:
+            loss = None
+
+        return ModelOutput(
+            loss=loss,
         )

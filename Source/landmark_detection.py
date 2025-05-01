@@ -13,6 +13,7 @@ import numpy as np
 device = "cuda" if torch.cuda.is_available() else "cpu"
 dtype = torch.float32
 weights_path = "ckpts/model.pt"
+# weights_path = "saves/20250430-2035-fulltrain/checkpoint-200/pytorch_model.bin"
 # face_model_path = "ckpts/blaze_face_short_range.tflite"
 
 # import mediapipe as mp
@@ -46,6 +47,7 @@ transforms_image = torchvision.transforms.Compose(
 def load_model(weights_path):
     model = FaceXFormer().to(device)
     checkpoint = torch.load(weights_path, map_location=device)
+    # model.load_state_dict(checkpoint)
     model.load_state_dict(checkpoint["state_dict_backbone"])
     model = model.eval()
     model = model.to(dtype=dtype)
@@ -160,7 +162,7 @@ def get_landmarks(faces: list[Face]):
             geders,
             races,
             segs,
-        ) = model(images, None, tasks)
+        ) = model.predict(images, None, tasks)
     batch_denormed = [
         denorm_points(landmarks, face.original_h, face.original_w)[0]
         for landmarks, face in zip(batch_landmarks.view(-1, 68, 2), faces)
