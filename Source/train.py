@@ -3,6 +3,7 @@ import torch
 import torchvision
 import datasets
 import PIL.Image
+import PIL.ImageDraw
 from datetime import datetime
 from dataclasses import dataclass
 from network import FaceXFormer
@@ -59,7 +60,7 @@ class DataCollator:
             label = feature["pts"]
             image, x_min, y_min, width = self.cut_face(image, label)
             batch["labels"].append([[x - x_min, y - y_min] for x, y in label])
-            batch["x"].append(image)
+            batch["x"].append(self.transforms_image(image))
 
         # print("This was called")
         batch["labels"] = torch.Tensor(batch["labels"]) / width * 2 - 1
@@ -107,8 +108,8 @@ class DataCollator:
             x_min, y_min, x_max, y_max, img.width, img.height
         )
         image = img.crop((int(x_min), int(y_min), int(x_max), int(y_max)))
-        image: torch.Tensor = self.transforms_image(image)
-        return image, x_min, y_min, x_max - x_min
+        # image: torch.Tensor = self.transforms_image(image)
+        return image, x_min, y_min, image.width
 
 
 def main():
@@ -146,5 +147,33 @@ def main():
     trainer.train()
 
 
+def test():
+    dataset = load_dataset(dataset_path="data/all.json")
+    data_collator = DataCollator(image_base_path="data")
+    features = dataset["train"].select(range(10))
+
+    for i, feature in enumerate(features):
+        image = PIL.Image.open(
+            os.path.join(data_collator.image_base_path, feature["img"])
+        ).convert("RGB")
+        label = feature["pts"]
+        image, x_min, y_min, width = data_collator.cut_face(image, label)
+        label = [
+            [(x - x_min) / width * 2 - 1, (y - y_min) / width * 2 - 1] for x, y in label
+        ]
+        image_draw = PIL.ImageDraw.ImageDraw(image)
+        print(image.size)
+        print(label[0])
+        for x, y in label:
+            x = (x + 1) * width / 2
+            y = (y + 1) * width / 2
+            image_draw.ellipse((x - 2, y - 2, x + 2, y + 2), fill="blue")
+
+        image.save(f"out-{i}.png")
+
+    # print("This was called")
+
+
 if __name__ == "__main__":
     main()
+    # test()

@@ -13,7 +13,7 @@ import numpy as np
 device = "cuda" if torch.cuda.is_available() else "cpu"
 dtype = torch.float32
 weights_path = "ckpts/model.pt"
-# weights_path = "saves/20250430-2035-fulltrain/checkpoint-200/pytorch_model.bin"
+# weights_path = "ckpts/pytorch_model.bin"
 # face_model_path = "ckpts/blaze_face_short_range.tflite"
 
 # import mediapipe as mp

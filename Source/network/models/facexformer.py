@@ -205,6 +205,7 @@ class FaceXFormer(nn.Module):
         # Backbone: Swin-B
         swin_v2 = swin_b(weights="IMAGENET1K_V1")
         self.backbone = torch.nn.Sequential(*(list(swin_v2.children())[:-1]))
+        self.backbone.requires_grad_(False)
 
         # # Backbone: ConvNext-B
         # convnext_v2 = convnext_base(weights='IMAGENET1K_V1')
