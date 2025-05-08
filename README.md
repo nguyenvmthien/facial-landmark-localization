@@ -7,6 +7,7 @@
 
 ## Lấy số liệu để báo cáo
 
+- Link Kaggle: https://www.kaggle.com/code/thgn292/test-train
 - Train bằng STARLOSS để kiểm tra kết quả
   - Nạp 3 tokens
 - Thử với các backbone khác nhau
@@ -20,7 +21,7 @@
 - Lịch họp:
   - Tối T5 (01/05): 19h
   - Trưa CN (04/05): 13h
-  - T5 (08/05)
+  - Trưa T5 (08/05): 13h
   - T7/CN (10-11/05): Họp review
 - Nội dung:
   - Làm phần thực nghiệm cho bài báo
