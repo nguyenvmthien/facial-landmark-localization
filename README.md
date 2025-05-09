@@ -3,14 +3,57 @@
 - Lịch họp định kỳ: 15h T7 hàng tuần
 - Lịch họp đột xuất (nếu có): 15h T4
 
+# TODO: 13h CN, 11/05
+
+- Họp review cho seminar
+- Viết báo cáo cho seminar
+  - Nội dung của chương 5 phải chia thành 3 phần rõ ràng
+- Làm slide thuyết trình cho seminar
+  - Link Canva đã gửi trong nhóm
+- Làm demo cho seminar
+  - Nếu quay sẵn video cho buổi trình bày thì phải dùng nền sáng
+
+## Cấu trúc báo cáo
+
+```
+Chương 5 - Giới thiệu về tập dữ liệu, độ đo đánh giá, và kết quả thực nghiệm
+|
+5.1. Thực nghiệm trong paper (Thiện) => subsection
+| - Giới thiệu về tập dữ liệu, độ đo đánh giá, thiết lập thí nghiệm
+| - Kết quả và nhận xét
+|
+5.2. Thực nghiệm trên tập dữ liệu iBug (Tín)
+| - ...
+| - Kết quả và nhận xét
+|
+5.3. Ứng dụng (Thông)
+| - ...
+```
+
+## Slide thuyết trình
+
+1. Introduction => Thiện
+2. Related works => Thiện
+3. Method => Phát
+4. Experiments & Demo
+   - Trên paper => Thiện
+   - Train model => Tín
+   - Demo ứng dụng => Thông
+5. Dicussion & Conclusion => Thông
+   - Nếu chỉ huấn luyện trên 1 task landmark detection thì khi đưa mô hình vào ứng dụng thực tiễn, nó sẽ khó trong việc nắm bắt tư thế đầu của người dùng (vd: xoay đầu 1 góc, v.v.) => Nhấn mạnh việc huấn luyện multitask training (đặc biệt là head pose est và landmark detection)
+
 # TODO: Demo
 
 ## Lấy số liệu để báo cáo
 
-- Link Kaggle: https://www.kaggle.com/code/thgn292/test-train
-- Train bằng STARLOSS để kiểm tra kết quả
-  - Nạp 3 tokens
+- Link Kaggle:
+  1. Train coord w/ WingLoss: https://www.kaggle.com/code/vmphat/train-model-coord
+  2. Train heatmap w/ STARLoss: https://www.kaggle.com/code/vmphat/train-model-heatmap
+  3. Test pretrained model: https://www.kaggle.com/code/vmphat/test-pretrained-model
+- Kết quả:
+  - Ghi ở sheet "Evaluation" trong file https://docs.google.com/spreadsheets/d/1sRzfZNLsH_zDZupy-x-obUzrgvaA6J3C5kZf52neDnw/edit?gid=686017112#gid=686017112
 - Thử với các backbone khác nhau
+  - Làm sao tích hợp được với `FaceXFormer`????
 
 ## Demo sản phẩm
 
@@ -21,21 +64,25 @@
 - Lịch họp:
   - Tối T5 (01/05): 19h
   - Trưa CN (04/05): 13h
-  - Trưa T5 (08/05): 13h
-  - T7/CN (10-11/05): Họp review
+  - Tối T6 (09/05): 19h
+  - Trưa CN (11/05): 13h
 - Nội dung:
   - Làm phần thực nghiệm cho bài báo
   - Bảng phân công công việc
   - Viết báo cáo cuối kỳ:
     - Phát: Team Info + Working Title
   - Làm slide cho seminar:
-    1. Introduction
-    2. Related works
-    3. Method
+    1. Introduction => Thiện
+    2. Related works => Thiện
+    3. Method => Phát
     4. Experiments & Demo
-    5. Dicussion & Conclusion
-  - Train model
-    - Số lượng weights = Số lượng epoch + 1 (best)
+       - Trên paper => Thiện
+       - Train model => Tín
+       - Demo ứng dụng => Thông
+    5. Dicussion & Conclusion => Thông
+       - Nếu chỉ huấn luyện trên 1 task landmark detection thì khi đưa mô hình vào ứng dụng thực tiễn, nó sẽ khó trong việc nắm bắt tư thế đầu của người dùng (vd: xoay đầu 1 góc, v.v.) => Nhấn mạnh việc huấn luyện multitask training (đặc biệt là head pose est và landmark detection)
+- Train model
+  - Số lượng weights = Số lượng epoch + 1 (best)
 
 # TODO: Đến deadline nộp báo cáo giữa kỳ
 
