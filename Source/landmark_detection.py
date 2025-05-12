@@ -1,5 +1,7 @@
+import os
 import torch
 import torchvision
+import huggingface_hub
 from torchvision.transforms import InterpolationMode
 from network.models.facexformer import FaceXFormer
 from dataclasses import dataclass
@@ -12,23 +14,9 @@ import numpy as np
 # device = "cuda:0"
 device = "cuda" if torch.cuda.is_available() else "cpu"
 dtype = torch.float32
-# weights_path = "ckpts/model.pt"
-weights_path = "ckpts/pytorch_model.bin"
-# face_model_path = "ckpts/blaze_face_short_range.tflite"
-
-# import mediapipe as mp
-
-# BaseOptions = mp.tasks.BaseOptions
-# FaceDetector = mp.tasks.vision.FaceDetector
-# FaceDetectorOptions = mp.tasks.vision.FaceDetectorOptions
-# FaceDetectorResult = mp.tasks.vision.FaceDetectorResult
-# VisionRunningMode = mp.tasks.vision.RunningMode
-
-# options = FaceDetectorOptions(
-#     base_options=BaseOptions(model_asset_path=face_model_path),
-#     running_mode=VisionRunningMode.LIVE_STREAM,
-# )
-# face_detector = FaceDetector.create_from_options(options)
+# weights_path = "ckpts/facexformer_swin_b_best.pth"
+weights_path = "ckpts/model.pt"
+# weights_path = "ckpts/pytorch_model.bin"
 
 transforms_image = torchvision.transforms.Compose(
     [
@@ -45,10 +33,18 @@ transforms_image = torchvision.transforms.Compose(
 
 
 def load_model(weights_path):
-    model = FaceXFormer().to(device)
-    checkpoint = torch.load(weights_path, map_location=device)
-    model.load_state_dict(checkpoint)
+    model = FaceXFormer("swin_b").to(device)
+    if not os.path.exists(weights_path):
+        huggingface_hub.hf_hub_download(
+            "kartiknarayan/facexformer",
+            "ckpts/model.pt",
+            repo_type="model",
+            local_dir="ckpts",
+        )
+    checkpoint = torch.load(weights_path, map_location=device, weights_only=False)
+    # model.load_state_dict(checkpoint)
     # model.load_state_dict(checkpoint["state_dict_backbone"])
+    model.load_state_dict(checkpoint["state_dict"])
     model = model.eval()
     model = model.to(dtype=dtype)
     # model = torch.compile(model, mode="reduce-overhead")
@@ -153,20 +149,14 @@ def get_landmarks(faces: list[Face]):
     tasks = torch.tensor([1] * len(faces), device=device, dtype=dtype)
     with torch.inference_mode():
         # with torch.amp.autocast("cuda"):
-        (
-            batch_landmarks,
-            headposes,
-            attributes,
-            visibilities,
-            ages,
-            geders,
-            races,
-            segs,
-        ) = model.predict(images, None, tasks)
+        batch_landmarks = model.forward(images, None, tasks)
     batch_denormed = [
         denorm_points(landmarks, face.original_h, face.original_w)[0]
         for landmarks, face in zip(batch_landmarks.view(-1, 68, 2), faces)
     ]
+    print(batch_landmarks)
+    # print(batch_denormed)
+    # exit(0)
 
     results = []
     for landmarks, face in zip(batch_denormed, faces):
