@@ -50,8 +50,24 @@ def video_frame_callback_gradio(frame: np.array):
     return image  # , AdditionalOutputs(flipped, flipped)
 
 
-css = """.my-group {max-width: 600px !important;}
-         .my-column {display: flex !important; justify-content: center !important; align-items: center !important;}"""
+css = """
+.my-group {
+    max-width: 600px !important;
+    overflow: auto !important;
+}
+.my-column {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    overflow: auto !important;
+}
+.my-row {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: start !important;
+    overflow: auto;
+}
+"""
 
 image_extensions = [
     "*.jpg",
@@ -62,7 +78,7 @@ image_extensions = [
     "*.tiff",
     "*.webp",
 ]
-all_image_files = []
+all_image_files = ["No filter"]
 
 for ext in image_extensions:
     pattern = os.path.join("images", "**", ext)  # '**' for recursive search
@@ -84,17 +100,20 @@ with gr.Blocks(css=css) as demo:
             selected_filter = gr.Dropdown(
                 choices=all_image_files,
                 label="Choose filter",
-                value="images/sunglasses_1.png",
+                value=all_image_files[0],
             )
 
             def change_filter(filter_path):
                 global filter_img
                 try:
-                    filter_img = cv2.imread(filter_path, cv2.IMREAD_UNCHANGED)
+                    if filter_path != all_image_files[0]:
+                        filter_img = cv2.imread(filter_path, cv2.IMREAD_UNCHANGED)
+                    else:
+                        filter_img = None
                 except:
                     gr.Error("Error open" + filter_path)
 
-            change_filter(selected_filter.value)
+            change_filter(filter_path=selected_filter.value)
 
             selected_filter.change(
                 change_filter, inputs=[selected_filter], show_progress="full"
@@ -104,7 +123,7 @@ with gr.Blocks(css=css) as demo:
             stream = WebRTC(label="Stream", rtc_configuration=None)
             stream.stream(
                 fn=VideoStreamHandler(
-                    video_frame_callback_gradio, fps=12, skip_frames=True
+                    video_frame_callback_gradio, fps=1, skip_frames=True
                 ),
                 inputs=[stream],
                 outputs=[stream],
@@ -158,12 +177,6 @@ def test(times=10):
 
 
 if __name__ == "__main__":
-    no_params = 0
-    for name, i in landmark_detection.model.named_parameters(recurse=True):
-        no_params += i.numel()
-        print(name, i.numel())
-
-    print(no_params)
     if "--test" in sys.argv:
         test()
         exit(0)

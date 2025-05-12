@@ -328,16 +328,20 @@ class FaceXFormer(nn.Module):
             seg_output,
         )
 
-    def loss(self, predictions: torch.Tensor, labels: torch.Tensor):
+    def loss(
+        self, predictions: torch.Tensor, labels: torch.Tensor, num_items_in_batch=None
+    ):
         # print(predictions.shape)
         # print(labels.shape)
         # print("predic:", predictions)
         # print("labels:", labels)
         # Used L2 loss for now
-        loss = torch.pow(predictions - labels, 2)
-        return torch.mean(loss)
+        loss = torch.nn.functional.mse_loss(predictions, labels, reduction="sum")
+        if num_items_in_batch:
+            loss /= num_items_in_batch
+        return loss
 
-    def forward(self, x, labels):
+    def forward(self, x, labels, num_items_in_batch=None):
         self.multi_scale_features.clear()
 
         _, _, h, w = x.shape

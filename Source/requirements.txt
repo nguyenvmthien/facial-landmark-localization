@@ -1,6 +1,6 @@
-# torch
-# torchaudio
-# torchvision
+torch
+torchaudio
+torchvision
 git+https://github.com/thng292/facenet-pytorch.git
 gradio
 fastrtc

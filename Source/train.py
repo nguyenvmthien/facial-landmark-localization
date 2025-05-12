@@ -16,9 +16,10 @@ dtype = torch.float32
 
 def load_model(weight_path):
     model = FaceXFormer().to(device)
-    # checkpoint = torch.load(weight_path, map_location=device)
-    # model.load_state_dict(checkpoint["state_dict_backbone"])
-    model = model.to(dtype=dtype)
+    checkpoint = torch.load(weight_path, map_location=device)
+    if weight_path:
+        model.load_state_dict(checkpoint["state_dict_backbone"])
+        model = model.to(dtype=dtype)
     return model
 
 
@@ -116,7 +117,9 @@ def main():
     dataset = load_dataset(dataset_path="data/all.json")
     # print(dataset["train"][78])
     # exit(1)
-    model = load_model(weight_path="ckpts/model.pt")
+    model = load_model(
+        # weight_path="ckpts/model.pt",
+    )
     trainer = Trainer(
         model,
         args=TrainingArguments(
