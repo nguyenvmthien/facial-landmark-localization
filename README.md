@@ -7,6 +7,10 @@ Dự án này tập trung vào việc tìm hiểu chủ đề **Facial Landmark 
 Ngoài việc phân tích mô hình gốc, chúng tôi thực hiện **huấn luyện lại (pre-train)** mô hình trên một tập dữ liệu nhỏ hơn, đồng thời áp dụng kỹ thuật **autocast** để giảm chi phí tính toán.  
 Mục tiêu chính của dự án là hiểu rõ cấu trúc của FaceXFormer và tổng quan quá trình nghiên cứu trong lĩnh vực này.
 
+<p align="center">
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUdlGtalcFqtNUbUP93oZnMf4tCFPQNkFU5g&s" alt="Facial Landmark Example" width="500"/>
+</p
+
 ## 🧰 Công nghệ sử dụng
 
 - 🔹 Python
