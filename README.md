@@ -9,7 +9,7 @@ Mục tiêu chính của dự án là hiểu rõ cấu trúc của FaceXFormer v
 
 <p align="center">
   <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUdlGtalcFqtNUbUP93oZnMf4tCFPQNkFU5g&s" alt="Facial Landmark Example" width="500"/>
-</p
+</p>
 
 ## 🧰 Công nghệ sử dụng
 
