@@ -1,36 +1,38 @@
 # 🧠 Facial Landmark Localization
 
-## 📌 Giới thiệu
+## 📌 Introduction
+This project focuses on the topic of **Facial Landmark Localization** – identifying key characteristic points on the human face. We conduct a survey of previous research and delve into the architecture of **FaceXFormer** – a model that utilizes the Transformer architecture for this task.
 
-Dự án này tập trung vào việc tìm hiểu chủ đề **Facial Landmark Localization** – định vị các điểm mốc đặc trưng trên khuôn mặt. Chúng tôi tiến hành khảo sát các công trình nghiên cứu trước đây và đào sâu vào kiến trúc của **FaceXFormer** – một mô hình sử dụng kiến trúc Transformer cho bài toán này.
-
-Ngoài việc phân tích mô hình gốc, chúng tôi thực hiện **huấn luyện lại (pre-train)** mô hình trên một tập dữ liệu nhỏ hơn, đồng thời áp dụng kỹ thuật **autocast** để giảm chi phí tính toán.  
-Mục tiêu chính của dự án là hiểu rõ cấu trúc của FaceXFormer và tổng quan quá trình nghiên cứu trong lĩnh vực này.
+In addition to analyzing the original model, we also **pre-train** it on a smaller dataset and apply the **autocast** technique to reduce computational costs.  
+The main objective of this project is to understand the structure of FaceXFormer and provide an overview of research in this field.
 
 <p align="center">
   <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUdlGtalcFqtNUbUP93oZnMf4tCFPQNkFU5g&s" alt="Facial Landmark Example" width="500"/>
 </p>
 
-## 🧰 Công nghệ sử dụng
+## 🧰 Technologies Used
 
 - 🔹 Python
 - 🔹 PyTorch
 - 🔹 Jupyter Notebook
+- 🔹 Kaggle
+- 🔹 Streamlit
 
-## 📁 Cấu trúc thư mục
+
+## 📁  Directory Structure
 
 ```plaintext
 facial-landmark-localization/
-├── Evaluate/           # Notebook đánh giá mô hình
-├── Papers/             # Tài liệu nghiên cứu
-├── Related-works/      # Tổng hợp công trình liên quan
-├── Source/             # Mã nguồn chính
-├── Surveys/            # Tổng quan các phương pháp
-├── planning.md         # Kế hoạch thực hiện
-└── README.md           # Tài liệu hướng dẫn
+├── Evaluate/           # Model evaluation notebooks
+├── Papers/             # Research documents
+├── Related-works/      # Collection of related works
+├── Source/             # Main source code
+├── Surveys/            # Methodology overviews
+├── planning.md         # Implementation plan
+└── README.md           # Documentation
 ```
 
-## ⚙️ Cài đặt và sử dụng
+## ⚙️ Installation and Usage
 
 ### 1. Clone repository
 
@@ -39,7 +41,7 @@ git clone https://github.com/nguyenvmthien/facial-landmark-localization.git
 cd facial-landmark-localization
 ```
 
-### 2. Tạo môi trường ảo (khuyến khích)
+### 2. Create a virtual environment (recommended)
 
 ```bash
 python -m venv venv
@@ -47,26 +49,27 @@ source venv/bin/activate     # macOS/Linux
 venv\Scripts\activate        # Windows
 ```
 
-### 3. Cài đặt phụ thuộc
+### 3. Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Chạy các notebook
+### 4. Run notebooks
 
 Mở Jupyter Notebook và thực thi các file `.ipynb` trong thư mục `Evaluate/` để xem kết quả đánh giá mô hình.
 
-## 📊 Kết quả và đánh giá
+## 📊 Results and Evaluation
 
-Chi tiết về kết quả huấn luyện và đánh giá lại mô hình FaceXFormer được trình bày trong các notebook tại thư mục `Evaluate/`.  
-Các thí nghiệm tập trung vào khả năng học lại trên dữ liệu nhỏ và tác động của kỹ thuật autocast đến hiệu suất mô hình.
+Detailed results from training and re-evaluation of the FaceXFormer model are presented in the notebooks within the `Evaluate/` folder.
 
-## 📝 Giấy phép
+Experiments focus on the model's learning ability with smaller datasets and the impact of the autocast technique on performance..
 
-Dự án được phát hành dưới giấy phép [MIT License](LICENSE).
+## 📝 License
 
-## 👥 Nhóm thực hiện
+This project is released under the [MIT License](LICENSE).
+
+## 👥 Contributors
 
 - [Thien Nguyen](https://github.com/nguyenvmthien)
 - [Vũ Minh Phát](https://github.com/vmphat)
