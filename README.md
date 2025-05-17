@@ -57,8 +57,7 @@ pip install -r requirements.txt
 ```
 
 ### 4. Run notebooks
-
-Mở Jupyter Notebook và thực thi các file `.ipynb` trong thư mục `Evaluate/` để xem kết quả đánh giá mô hình.
+Open Jupyter Notebook and run the `.ipynb` files in the `Evaluate/` directory to view the model evaluation results.
 
 ## 📊 Results and Evaluation
 
