@@ -10,6 +10,7 @@ The main objective of this project is to understand the structure of FaceXFormer
   <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUdlGtalcFqtNUbUP93oZnMf4tCFPQNkFU5g&s" alt="Facial Landmark Example" width="500"/>
 </p>
 
+**Short demo our application:** [video](https://drive.google.com/drive/folders/1W3eUixIPSSU3D-RCxCheP0kc7no5JmFT)
 ## 🧰 Technologies Used
 
 - 🔹 Python
